@@ -1,0 +1,23 @@
+server:
+  port: 8081
+
+spring:
+#  服务应用名称ID
+  application:
+    name: user-server
+  datasource:
+    password: 123456
+    username: root
+    url: jdbc:mysql://localhost:3306/HMSpringBootLearn?serverTimezone=UTC&useSSL=false
+#  mybatis对应的实体类地址
+mybatis:
+  type-aliases-package: cn.itcast.user.pojo
+#  向eureka注册中心注册
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka,http://127.0.0.1:10087/eureka
+  instance:
+#  eureka心跳机制：默认每隔30s校验一次，90s未接收到注册方的心跳即剔除注册方
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90

@@ -1,0 +1,41 @@
+server:
+  port: 10010
+spring:
+#  服务应用名称
+  application:
+    name: Gateway-zuul
+#  向eureka注册中心注册
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka,http://127.0.0.1:10087/eureka
+    fetch-registry: true
+zuul:
+  ignored-services: consumer-server
+#  路由前缀：之前：http://localhost:10010/user-server/user/2，加前缀后：http://localhost:10010/api/user-server/user/2
+  prefix: /api
+#以下配置可以不配置，默认“服务名”+访问路径；下面可以自己配置路径
+#zuul:
+#  routes:
+#    user-server: /user-service/**
+#        strip-prefix: false可以去除路由前缀（服务ID访问），也可全局去除前缀
+#    hehe:
+#      path: /user-service/**
+#      serviceId: user-server
+
+#      url: http://127.0.0.1:8081
+
+#zuul的负载均衡和熔断配置
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 6000
+ribbon:
+  ConnectionTimeout: 500
+  ReadTimeout: 1000
+  MaxAutoRetriesNextServer: 0 #不重试
+
+#  ribbon的超时时长，真实值是（read+connect）*2,需小于hystrix的时长。否则重试会失效

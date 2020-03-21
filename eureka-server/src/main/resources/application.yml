@@ -1,0 +1,23 @@
+server:
+  port: 10086
+#  服务需要有名字，服务ID
+spring:
+  application:
+    name: eureka-server
+#  eureka既是服务端也是客户端，也需要向其他eureka注册，发展着那个到后面也是集群。不然一个挂了，所有服务都宕机
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka,http://127.0.0.1:10087/eureka
+#    是否注册自己，默认为true
+    register-with-eureka: false
+  server:
+#  失效剔除机制：注册方失效剔除服务列表，默认60s，当检测心跳超过90s后，服务失效，不会立即剔除，等待60s后才会真正剔除服务
+    eviction-interval-timer-in-ms: 60
+#    自我保护机制：当服务未按时进行心跳，eureka会统计服务实例最近15分钟的心跳比例是否低于85%，低于才挂掉。默认打开
+#    enable-self-preservation: false
+
+
+#  instance:
+#    prefer-ip-address: true
+#    ip-address: 127.0.0.1

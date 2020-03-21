@@ -1,0 +1,35 @@
+server:
+  port: 8082
+spring:
+#  服务应用名称
+  application:
+    name: consumer-server
+#  向eureka注册中心注册
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka,http://127.0.0.1:10087/eureka
+#      fetch-registry是否拉取服务列表，默认拉取；registry-fetch-interval-seconds拉取服务列表周期，默认30s
+    fetch-registry: true
+    registry-fetch-interval-seconds: 30
+ribbon:
+#feign中需配置ribbon默认超过1s连接没有建立抛出异常
+  ConnectionTimeOut: 500
+# feign中需配置 超过2s没有接收到数据抛出异常
+  ReadTimeOut: 2000
+#  feign中需配置  配置hystrix熔断默认关闭，需自行开启
+feign:
+  hystrix:
+    enabled: true
+#    配置hystrix全局属性超时时间3000
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 3000
+#Ribbon负载均衡算法选择，默认为轮询，下面配置可修改为
+#user-service:
+#  ribbon:
+#    NFLoadBalanceRuleClassName: com.netflix.loadbalancer.RandomRule
