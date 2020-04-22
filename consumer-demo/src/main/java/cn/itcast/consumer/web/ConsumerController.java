@@ -2,6 +2,8 @@ package cn.itcast.consumer.web;
 
 import cn.itcast.consumer.client.UserClient;
 import cn.itcast.consumer.pojo.User;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
@@ -12,10 +14,7 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.cloud.netflix.hystrix.HystrixProperties;
 import org.springframework.cloud.netflix.ribbon.RibbonLoadBalancerClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -64,11 +63,26 @@ public class ConsumerController {
     }
 
     public String queryByIdFallback(Long id){
-        return "不好意思，服务器太拥挤了";
+        return "不好意思，服务器太拥挤了！！！！";
     }
 /*通用fallback方法不能传递参数*/
     public String queryByIdFallback(){
         return "不好意思，服务器太拥挤了";
     }
+
+    @RequestMapping(value = "/saveUser", method = RequestMethod.POST)
+    public String saveUser(@RequestParam("userName") String userName,
+                           @RequestParam("passWord") String passWord,
+                           @RequestParam("name") String name){
+        User user = new User();
+        user.setName(name);
+        user.setUsername(userName);
+        user.setPassword(passWord);
+
+        return userClient.saveUser(JSONObject.);
+    }
+
+
+
 }
 
